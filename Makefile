@@ -1,10 +1,10 @@
 build:
-	docker build -t netextender-client:forward .
+	cat ~/.ssh/id_rsa.pub > authorized_keys
+	docker build -t netextender-client .
 
 run:
-	docker run --rm -it --privileged netextender-client:forward $@
+	docker run -it --name netextender-forward -it -p 2222:22 --privileged netextender-client
 
 bash:
-	docker port netextender-client:forward 22
-	docker run --rm -it --entrypoint bash netextender-client
+	docker exec -it netextender-forward bash
 
